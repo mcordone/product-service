@@ -1,0 +1,61 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+apply plugin: 'idea'
+
+war {
+	baseName = 'product-service'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+war.archiveName = 'productService.war'
+
+repositories {
+	mavenCentral()
+    jcenter()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+    //Spring Boot Starters
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-web')
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-jdbc"
+	compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "org.modelmapper:modelmapper:${project.properties['modelMapperVersion']}"
+	compileOnly('org.projectlombok:lombok')
+	compile "io.rest-assured:rest-assured:${project.properties['restAssuredVersion']}"
+    /*compile "com.aol.advertising.demand.starter:demand-spring-boot-starter-swagger:${project.properties['demandSwaggerStarterVersion']}"
+    compile "com.aol.advertising.demand.starter:demand-spring-boot-starter-security:${project.properties['demandSecurityStarterVersion']}"
+	compile('org.springframework.boot:spring-boot-starter-jersey')
+    compile ('org.mockito:mockito-all:1.10.19')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')*/
+
+    //Spring DB related Boot Starters
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.1')
+	//compile('org.mybatis.spring.boot:mybatis-spring-boot-starter-test:1.2.0')
+	compile('org.flywaydb:flyway-core')
+	compile('mysql:mysql-connector-java')
+
+    //Spring Boot test Starters
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile "org.assertj:assertj-core:${project.properties['assertjCoreVersion']}"
+}
